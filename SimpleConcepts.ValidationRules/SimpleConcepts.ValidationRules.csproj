@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -12,7 +12,7 @@
     <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRUles</PackageProjectUrl>
     <PackageTags>simpleconcepts validation rules linq</PackageTags>
     <Copyright>MIT</Copyright>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
