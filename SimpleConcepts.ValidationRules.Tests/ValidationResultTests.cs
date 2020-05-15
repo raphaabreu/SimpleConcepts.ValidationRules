@@ -31,8 +31,8 @@ namespace SimpleConcepts.ValidationRules.Tests
         public void OperatorEqual_WithSuccesses_ReturnsTrue()
         {
             // Arrange
-            var left = ValidationResult.Success;
-            var right = ValidationResult.Success;
+            var left = ValidationResult.Valid;
+            var right = ValidationResult.Valid;
 
             // Act
             var result = left == right;
@@ -87,7 +87,7 @@ namespace SimpleConcepts.ValidationRules.Tests
         public void OperatorEqual_WithSuccessAndError_ReturnsFalse()
         {
             // Arrange
-            var left = ValidationResult.Success;
+            var left = ValidationResult.Valid;
             var right = new ValidationResult("error321");
 
             // Act
@@ -101,7 +101,7 @@ namespace SimpleConcepts.ValidationRules.Tests
         public void OperatorNotEqual_WithSuccessAndError_ReturnsTrue()
         {
             // Arrange
-            var left = ValidationResult.Success;
+            var left = ValidationResult.Valid;
             var right = new ValidationResult("error321");
 
             // Act
@@ -144,7 +144,7 @@ namespace SimpleConcepts.ValidationRules.Tests
         {
             // Arrange
             var left = new ValidationResult("error321");
-            var right = ValidationResult.Success;
+            var right = ValidationResult.Valid;
 
             // Act
             var result = left.Equals(right);

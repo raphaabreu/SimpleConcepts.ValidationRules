@@ -15,7 +15,7 @@ namespace SimpleConcepts.ValidationRules
             return source.Select(rule => new DelegatedAsyncValidationRule<TElement>(rule, applyRule));
         }
 
-        public static async Task<ILookup<TElement, Validation>> ValidateAsync<TElement>(
+        public static async Task<IRuleResultsLookup<TElement>> ValidateAsync<TElement>(
             this IEnumerable<TElement> source, IEnumerable<IAsyncValidationRule<TElement>> rules, CancellationToken cancellationToken = default)
         {
             // Copy to array to retain indexes.
@@ -24,21 +24,21 @@ namespace SimpleConcepts.ValidationRules
             // If there are no elements there is nothing else to do.
             if (sourceArray.Length == 0)
             {
-                return new ValidationResultLookup<TElement>(Array.Empty<KeyValuePair<TElement, IEnumerable<Validation>>>());
+                return new RuleResultsLookup<TElement>(Array.Empty<KeyValuePair<TElement, IEnumerable<RuleResult>>>());
             }
 
             // Compute all rules in parallel.
             var validationTasks = rules.Select(async rule =>
-                (await rule.ValidateAsync(sourceArray, cancellationToken)).Select(result => new Validation(rule.GetType(), result)).ToArray()
+                (await rule.ValidateAsync(sourceArray, cancellationToken)).Select(result => new RuleResult(rule.GetType(), result)).ToArray()
             ).ToArray();
 
             var ruleResults = await Task.WhenAll(validationTasks);
 
             // Aggregate all results by element.
             var results = sourceArray
-                .Select((element, index) => new KeyValuePair<TElement, IEnumerable<Validation>>(element, ruleResults.Select(r => r[index])));
+                .Select((element, index) => new KeyValuePair<TElement, IEnumerable<RuleResult>>(element, ruleResults.Select(r => r[index])));
 
-            return new ValidationResultLookup<TElement>(results);
+            return new RuleResultsLookup<TElement>(results);
         }
     }
 }

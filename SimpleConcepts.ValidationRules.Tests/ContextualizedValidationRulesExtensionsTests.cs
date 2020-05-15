@@ -62,8 +62,8 @@ namespace SimpleConcepts.ValidationRules.Tests
             Assert.Equal(new[] { "NOT_GREATER_THAN_5", "NOT_GREATER_THAN_7" }, results[5].ErrorCodes());
             Assert.Equal(new[] { "NOT_GREATER_THAN_7" }, results[6].ErrorCodes());
             Assert.Equal(new[] { "NOT_GREATER_THAN_7" }, results[7].ErrorCodes());
-            Assert.True(results[8].Success());
-            Assert.True(results[9].Success());
+            Assert.True(results[8].Valid());
+            Assert.True(results[9].Valid());
             Assert.Equal(new[] { "NOT_LOWER_THAN_10" }, results[10].ErrorCodes());
             Assert.Equal(new[] { "NOT_LOWER_THAN_10" }, results[11].ErrorCodes());
             Assert.Equal(new[] { "NOT_LOWER_THAN_10", "NOT_LOWER_THAN_12" }, results[12].ErrorCodes());

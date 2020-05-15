@@ -13,7 +13,7 @@ namespace SimpleConcepts.ValidationRules
             return source.Select(rule => new DelegatedValidationRule<TElement, TContext>(rule, applyRule));
         }
 
-        public static ILookup<TElement, Validation> Validate<TElement, TContext>(
+        public static IRuleResultsLookup<TElement> Validate<TElement, TContext>(
             this IEnumerable<TElement> source, IEnumerable<IValidationRule<TElement, TContext>> rules, TContext context)
         {
             // Copy to array to retain indexes.
@@ -22,19 +22,19 @@ namespace SimpleConcepts.ValidationRules
             // If there are no elements there is nothing else to do.
             if (sourceArray.Length == 0)
             {
-                return new ValidationResultLookup<TElement>(Array.Empty<KeyValuePair<TElement, IEnumerable<Validation>>>());
+                return new RuleResultsLookup<TElement>(Array.Empty<KeyValuePair<TElement, IEnumerable<RuleResult>>>());
             }
 
             // Compute all rules sequentially.
             var ruleResults = rules.Select(rule =>
-                rule.Validate(sourceArray, context).Select(result => new Validation(rule.GetType(), result)).ToArray()
+                rule.Validate(sourceArray, context).Select(result => new RuleResult(rule.GetType(), result)).ToArray()
             ).ToArray();
 
             // Aggregate all results by element.
             var results = sourceArray
-                .Select((element, index) => new KeyValuePair<TElement, IEnumerable<Validation>>(element, ruleResults.Select(r => r[index])));
+                .Select((element, index) => new KeyValuePair<TElement, IEnumerable<RuleResult>>(element, ruleResults.Select(r => r[index])));
 
-            return new ValidationResultLookup<TElement>(results);
+            return new RuleResultsLookup<TElement>(results);
         }
     }
 }

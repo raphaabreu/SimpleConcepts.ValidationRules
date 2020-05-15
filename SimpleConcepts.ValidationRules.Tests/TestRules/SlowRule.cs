@@ -12,14 +12,14 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-            return source.Select(x => ValidationResult.Success);
+            return source.Select(x => ValidationResult.Valid);
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
         {
             Thread.Sleep(TimeSpan.FromSeconds(0.5));
 
-            return source.Select(x => ValidationResult.Success);
+            return source.Select(x => ValidationResult.Valid);
         }
     }
 
@@ -29,14 +29,14 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5));
 
-            return source.Select(x => ValidationResult.Success);
+            return source.Select(x => ValidationResult.Valid);
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)
         {
             Thread.Sleep(TimeSpan.FromSeconds(0.5));
 
-            return source.Select(x => ValidationResult.Success);
+            return source.Select(x => ValidationResult.Valid);
         }
     }
 }

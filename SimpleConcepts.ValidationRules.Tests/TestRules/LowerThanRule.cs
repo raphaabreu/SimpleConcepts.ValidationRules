@@ -21,7 +21,7 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
         {
-            return source.Select(i => i < _threshold ? ValidationResult.Success : new ValidationResult($"NOT_LOWER_THAN_{_threshold}"));
+            return source.Select(i => i < _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_LOWER_THAN_{_threshold}"));
         }
     }
 
@@ -41,7 +41,7 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)
         {
-            return source.Select(i => i < _threshold ? ValidationResult.Success : new ValidationResult($"NOT_LOWER_THAN_{_threshold}"));
+            return source.Select(i => i < _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_LOWER_THAN_{_threshold}"));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace SimpleConcepts.ValidationRules
     [DebuggerDisplay("{ErrorCode}")]
     public class ValidationResult
     {
-        public static ValidationResult Success => null;
+        public static ValidationResult Valid => null;
 
         public string ErrorCode { get; }
 

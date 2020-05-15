@@ -4,18 +4,18 @@ using System.Diagnostics;
 namespace SimpleConcepts.ValidationRules
 {
     [DebuggerDisplay("Error = {Result}", Name = "{RuleType.FullName}")]
-    public class Validation
+    public class RuleResult
     {
         public Type RuleType { get; }
         public ValidationResult Result { get; }
 
-        public Validation(Type ruleType, ValidationResult result)
+        public RuleResult(Type ruleType, ValidationResult result)
         {
             RuleType = ruleType;
             Result = result;
         }
 
-        public static bool operator ==(Validation left, Validation right)
+        public static bool operator ==(RuleResult left, RuleResult right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -29,7 +29,7 @@ namespace SimpleConcepts.ValidationRules
             return left != null && left.Equals(right);
         }
 
-        public static bool operator !=(Validation left, Validation right)
+        public static bool operator !=(RuleResult left, RuleResult right)
         {
             return !(left == right);
         }
@@ -40,7 +40,7 @@ namespace SimpleConcepts.ValidationRules
             {
                 return true;
             }
-            if (obj is Validation rvr)
+            if (obj is RuleResult rvr)
             {
                 return Equals(rvr);
             }
@@ -48,7 +48,7 @@ namespace SimpleConcepts.ValidationRules
             return false;
         }
 
-        protected bool Equals(Validation other)
+        protected bool Equals(RuleResult other)
         {
             return other.RuleType == RuleType && other.Result == Result;
         }
