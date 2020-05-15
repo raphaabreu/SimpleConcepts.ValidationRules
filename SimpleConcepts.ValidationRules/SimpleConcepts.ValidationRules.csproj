@@ -12,7 +12,8 @@
     <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRUles</PackageProjectUrl>
     <PackageTags>simpleconcepts validation rules linq</PackageTags>
     <Copyright>MIT</Copyright>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

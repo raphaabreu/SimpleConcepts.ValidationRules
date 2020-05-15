@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace SimpleConcepts.ValidationRules
 {
-    public static class RuleValidationResultExtensions
+    public static class ValidationExtensions
     {
-        public static bool Success(this IEnumerable<RuleValidationResult> source)
+        public static bool Success(this IEnumerable<Validation> source)
         {
             return source.All(x => x.Result == ValidationResult.Success);
         }
 
-        public static IEnumerable<string> ErrorCodes(this IEnumerable<RuleValidationResult> source)
+        public static IEnumerable<string> ErrorCodes(this IEnumerable<Validation> source)
         {
             return source
                 .Where(x => x.Result != ValidationResult.Success)

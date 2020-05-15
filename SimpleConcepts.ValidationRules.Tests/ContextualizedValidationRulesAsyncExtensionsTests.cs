@@ -81,10 +81,10 @@ namespace SimpleConcepts.ValidationRules.Tests
             };
             var elements = new[] { 1 };
             var called = false;
-            var delegated = rules.WithDelegate((rule, e, c) =>
+            var delegated = rules.WithDelegate((rule, e, ctx, ct) =>
             {
                 called = true;
-                return rule.ValidateAsync(e, c);
+                return rule.ValidateAsync(e, ctx, ct);
             });
 
             // Act

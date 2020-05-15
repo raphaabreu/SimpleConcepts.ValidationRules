@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace SimpleConcepts.ValidationRules
 {
-    internal class ValidationResultLookup<TElement> : ILookup<TElement, RuleValidationResult>
+    internal class ValidationResultLookup<TElement> : ILookup<TElement, Validation>
     {
-        private readonly IReadOnlyDictionary<TElement, IEnumerable<RuleValidationResult>> _lookup;
-        private readonly IEnumerable<IGrouping<TElement, RuleValidationResult>> _enumerable;
+        private readonly IReadOnlyDictionary<TElement, IEnumerable<Validation>> _lookup;
+        private readonly IEnumerable<IGrouping<TElement, Validation>> _enumerable;
 
-        public ValidationResultLookup(IEnumerable<KeyValuePair<TElement, IEnumerable<RuleValidationResult>>> results)
+        public ValidationResultLookup(IEnumerable<KeyValuePair<TElement, IEnumerable<Validation>>> results)
         {
             _lookup = results.ToDictionary(x => x.Key, x => x.Value);
-            _enumerable = results.Select(x => (IGrouping<TElement, RuleValidationResult>)new GroupingAdapter(x));
+            _enumerable = results.Select(x => (IGrouping<TElement, Validation>)new GroupingAdapter(x));
         }
 
-        public IEnumerator<IGrouping<TElement, RuleValidationResult>> GetEnumerator()
+        public IEnumerator<IGrouping<TElement, Validation>> GetEnumerator()
         {
             return _enumerable.GetEnumerator();
         }
@@ -32,18 +32,18 @@ namespace SimpleConcepts.ValidationRules
 
         public int Count => _lookup.Count;
 
-        public IEnumerable<RuleValidationResult> this[TElement key] => _lookup[key];
+        public IEnumerable<Validation> this[TElement key] => _lookup[key];
 
-        private struct GroupingAdapter : IGrouping<TElement, RuleValidationResult>
+        private struct GroupingAdapter : IGrouping<TElement, Validation>
         {
-            private readonly KeyValuePair<TElement, IEnumerable<RuleValidationResult>> _source;
+            private readonly KeyValuePair<TElement, IEnumerable<Validation>> _source;
 
-            public GroupingAdapter(KeyValuePair<TElement, IEnumerable<RuleValidationResult>> source)
+            public GroupingAdapter(KeyValuePair<TElement, IEnumerable<Validation>> source)
             {
                 _source = source;
             }
 
-            public IEnumerator<RuleValidationResult> GetEnumerator()
+            public IEnumerator<Validation> GetEnumerator()
             {
                 return _source.Value.GetEnumerator();
             }
