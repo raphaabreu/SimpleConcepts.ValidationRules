@@ -14,9 +14,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
             _threshold = threshold;
         }
 
-        public Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Validate(source));
+            return new ValueTask<IEnumerable<ValidationResult>>(Validate(source));
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
@@ -34,9 +34,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
             _threshold = threshold;
         }
 
-        public Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult(Validate(source, context));
+            return new ValueTask<IEnumerable<ValidationResult>>(Validate(source, context));
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)

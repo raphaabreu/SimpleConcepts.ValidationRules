@@ -8,9 +8,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 {
     public class SlowRule : IAsyncValidationRule<int>, IValidationRule<int>
     {
-        public async Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
+        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.5));
+            await Task.Delay(TimeSpan.FromSeconds(0.5), cancellationToken);
 
             return source.Select(x => ValidationResult.Valid);
         }
@@ -25,9 +25,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 
     public class SlowRule<TContext> : IAsyncValidationRule<int, TContext>, IValidationRule<int, TContext>
     {
-        public async Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
+        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.5));
+            await Task.Delay(TimeSpan.FromSeconds(0.5), cancellationToken);
 
             return source.Select(x => ValidationResult.Valid);
         }

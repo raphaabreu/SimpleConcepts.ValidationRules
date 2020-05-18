@@ -6,9 +6,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 {
     public class FailingRule : IAsyncValidationRule<int>, IValidationRule<int>
     {
-        public Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
         {
-            return Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException());
+            return new ValueTask<IEnumerable<ValidationResult>>(Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException()));
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
@@ -19,9 +19,9 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
 
     public class FailingRule<TContext> : IAsyncValidationRule<int, TContext>, IValidationRule<int, TContext>
     {
-        public Task<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
         {
-            return Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException());
+            return new ValueTask<IEnumerable<ValidationResult>>(Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException()));
         }
 
         public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)

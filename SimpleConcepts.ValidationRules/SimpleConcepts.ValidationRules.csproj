@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <Authors>Raphael Lorenzeto de Abreu</Authors>
     <RootNamespace>SimpleConcepts.ValidationRules</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Simple LINQ extensions that allow easy validation of multiple objects according with rules that can be either sync or async where async rules execute in parallel.</Description>
-    <RepositoryUrl>https://github.com/raphaabreu/SimpleConcepts.Extensions.GuidNumericConversions</RepositoryUrl>
+    <RepositoryUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
-    <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRUles</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</PackageProjectUrl>
     <PackageTags>simpleconcepts validation rules linq</PackageTags>
     <Copyright>MIT</Copyright>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
