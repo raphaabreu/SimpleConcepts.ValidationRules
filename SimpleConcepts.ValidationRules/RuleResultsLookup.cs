@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SimpleConcepts.ValidationRules
@@ -34,6 +35,7 @@ namespace SimpleConcepts.ValidationRules
 
         public IEnumerable<RuleResult> this[TElement key] => _lookup[key];
 
+        [DebuggerDisplay("Valid = {Valid}", Name = "{Key}")]
         private struct GroupingAdapter : IGrouping<TElement, RuleResult>
         {
             private readonly KeyValuePair<TElement, IEnumerable<RuleResult>> _source;
@@ -51,6 +53,11 @@ namespace SimpleConcepts.ValidationRules
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return GetEnumerator();
+            }
+
+            public bool Valid()
+            {
+                return _source.Value.Valid();
             }
 
             public TElement Key => _source.Key;

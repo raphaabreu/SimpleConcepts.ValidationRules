@@ -13,6 +13,17 @@ namespace SimpleConcepts.ValidationRules
             return source.Select(rule => new DelegatedValidationRule<TElement>(rule, applyRule));
         }
 
+        public static IValidationRule<TElement> GetFinalTarget<TElement>(this IValidationRule<TElement> source)
+        {
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            while (source is IValidationRuleTargetAccess<TElement> access)
+            {
+                source = access.Target;
+            }
+
+            return source;
+        }
+
         public static IRuleResultsLookup<TElement> Validate<TElement>(
             this IEnumerable<TElement> source, IEnumerable<IValidationRule<TElement>> rules)
         {
@@ -36,6 +47,5 @@ namespace SimpleConcepts.ValidationRules
 
             return new RuleResultsLookup<TElement>(results);
         }
-
     }
 }

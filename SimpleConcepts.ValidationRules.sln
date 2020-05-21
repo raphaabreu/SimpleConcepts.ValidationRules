@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConcepts.ValidationRules.AppMetrics", "SimpleConcepts.ValidationRules.AppMetrics\SimpleConcepts.ValidationRules.AppMetrics.csproj", "{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{A1DDBF92-9AE6-47BD-BF2D-8C70AE6B53F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1DDBF92-9AE6-47BD-BF2D-8C70AE6B53F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1DDBF92-9AE6-47BD-BF2D-8C70AE6B53F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

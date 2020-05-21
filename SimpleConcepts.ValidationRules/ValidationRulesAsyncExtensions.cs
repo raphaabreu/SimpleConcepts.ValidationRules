@@ -15,6 +15,16 @@ namespace SimpleConcepts.ValidationRules
             return source.Select(rule => new DelegatedAsyncValidationRule<TElement>(rule, applyRule));
         }
 
+        public static IAsyncValidationRule<TElement> GetFinalTarget<TElement>(this IAsyncValidationRule<TElement> source)
+        {
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            while (source is IAsyncValidationRuleTargetAccess<TElement> access)
+            {
+                source = access.Target;
+            }
+
+            return source;
+        }
         public static async ValueTask<IRuleResultsLookup<TElement>> ValidateAsync<TElement>(
             this IEnumerable<TElement> source, IEnumerable<IAsyncValidationRule<TElement>> rules, CancellationToken cancellationToken = default)
         {
