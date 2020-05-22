@@ -5,14 +5,14 @@ namespace SimpleConcepts.ValidationRules
 {
     public static class RuleResultsLookupExtensions
     {
-        public static IEnumerable<TElement> ValidKeys<TElement>(this ILookup<TElement, RuleResult> ruleResultsLookup)
+        public static IEnumerable<T> ValidKeys<T>(this ILookup<T, RuleResult> ruleResultsLookup)
         {
             return ruleResultsLookup
                 .Where(r => r.Valid())
                 .Select(r => r.Key);
         }
 
-        public static IEnumerable<TElement> InvalidKeys<TElement>(this ILookup<TElement, RuleResult> validationResults)
+        public static IEnumerable<T> InvalidKeys<T>(this ILookup<T, RuleResult> validationResults)
         {
             return validationResults
                 .Where(r => !r.Valid())

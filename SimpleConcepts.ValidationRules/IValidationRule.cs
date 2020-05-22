@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SimpleConcepts.ValidationRules
 {
-    public interface IValidationRule<in TElement>
+    public interface IValidationRule<in T>
     {
-        IEnumerable<ValidationResult> Validate(IEnumerable<TElement> source);
+        ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<T> items, CancellationToken cancellationToken);
     }
 
-    public interface IValidationRule<in TElement, in TContext>
+    public interface IValidationRule<in T, in TContext>
     {
-        IEnumerable<ValidationResult> Validate(IEnumerable<TElement> source, TContext context);
+        ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<T> items, TContext context, CancellationToken cancellationToken);
     }
 }

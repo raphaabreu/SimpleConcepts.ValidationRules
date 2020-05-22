@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SimpleConcepts.ValidationRules
 {
     public static class ValidationRulesExtensions
     {
-        public static IEnumerable<IValidationRule<TElement>> WithDelegate<TElement>(
-            this IEnumerable<IValidationRule<TElement>> source,
-            Func<IValidationRule<TElement>, IEnumerable<TElement>, IEnumerable<ValidationResult>> applyRule)
-        {
-            return source.Select(rule => new DelegatedValidationRule<TElement>(rule, applyRule));
-        }
-
-        public static IValidationRule<TElement> GetFinalTarget<TElement>(this IValidationRule<TElement> source)
-        {
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            while (source is IValidationRuleTargetAccess<TElement> access)
-            {
-                source = access.Target;
-            }
-
-            return source;
-        }
-
-        public static IRuleResultsLookup<TElement> Validate<TElement>(
-            this IEnumerable<TElement> source, IEnumerable<IValidationRule<TElement>> rules)
+        public static async ValueTask<IRuleResultsLookup<T>> ValidateAsync<T>(
+            this IEnumerable<T> source, IEnumerable<IValidationRule<T>> rules, CancellationToken cancellationToken = default)
         {
             // Copy to array to retain indexes.
             var sourceArray = source.ToArray();
@@ -33,19 +17,36 @@ namespace SimpleConcepts.ValidationRules
             // If there are no elements there is nothing else to do.
             if (sourceArray.Length == 0)
             {
-                return new RuleResultsLookup<TElement>(Array.Empty<KeyValuePair<TElement, IEnumerable<RuleResult>>>());
+                return new RuleResultsLookup<T>(Array.Empty<KeyValuePair<T, IEnumerable<RuleResult>>>());
             }
 
-            // Compute all rules sequentially.
-            var ruleResults = rules.Select(rule =>
-                rule.Validate(sourceArray).Select(result => new RuleResult(rule.GetType(), result)).ToArray()
-            ).ToArray();
+            // Compute all rules in parallel.
+            var validationTasks = rules
+                .Select(rule => ExecuteRule(rule, source, cancellationToken))
+                .ToArray();
+
+            var ruleResults = new List<RuleResult[]>(validationTasks.Length);
+            foreach (var task in validationTasks)
+            {
+                ruleResults.Add(await task);
+            }
 
             // Aggregate all results by element.
             var results = sourceArray
-                .Select((element, index) => new KeyValuePair<TElement, IEnumerable<RuleResult>>(element, ruleResults.Select(r => r[index])));
+                .Select((element, index) => new KeyValuePair<T, IEnumerable<RuleResult>>(element, ruleResults.Select(r => r[index])));
 
-            return new RuleResultsLookup<TElement>(results);
+            return new RuleResultsLookup<T>(results);
+        }
+
+        private static async ValueTask<RuleResult[]> ExecuteRule<T>(
+            IValidationRule<T> rule, IEnumerable<T> source,
+            CancellationToken cancellationToken)
+        {
+            var validationResult = await rule.ValidateAsync(source, cancellationToken);
+
+            return validationResult
+                .Select(result => new RuleResult(rule.GetType(), result))
+                .ToArray();
         }
     }
 }

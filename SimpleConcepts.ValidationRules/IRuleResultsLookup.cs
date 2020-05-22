@@ -2,7 +2,7 @@
 
 namespace SimpleConcepts.ValidationRules
 {
-    public interface IRuleResultsLookup<TElement> : ILookup<TElement, RuleResult>
+    public interface IRuleResultsLookup<T> : ILookup<T, RuleResult>
     {
 
     }

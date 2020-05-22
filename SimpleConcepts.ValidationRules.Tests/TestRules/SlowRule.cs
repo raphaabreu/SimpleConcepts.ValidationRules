@@ -6,37 +6,23 @@ using System.Threading.Tasks;
 
 namespace SimpleConcepts.ValidationRules.Tests.TestRules
 {
-    public class SlowRule : IAsyncValidationRule<int>, IValidationRule<int>
+    public class SlowRule : IValidationRule<int>
     {
-        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
+        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5), cancellationToken);
 
-            return source.Select(x => ValidationResult.Valid);
-        }
-
-        public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(0.5));
-
-            return source.Select(x => ValidationResult.Valid);
+            return items.Select(x => ValidationResult.Valid);
         }
     }
 
-    public class SlowRule<TContext> : IAsyncValidationRule<int, TContext>, IValidationRule<int, TContext>
+    public class SlowRule<TContext> : IValidationRule<int, TContext>
     {
-        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
+        public async ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, TContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5), cancellationToken);
 
-            return source.Select(x => ValidationResult.Valid);
-        }
-
-        public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(0.5));
-
-            return source.Select(x => ValidationResult.Valid);
+            return items.Select(x => ValidationResult.Valid);
         }
     }
 }

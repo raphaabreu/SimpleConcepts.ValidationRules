@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace SimpleConcepts.ValidationRules
 {
-    public class RuleResultsLookup<TElement> : IRuleResultsLookup<TElement>
+    public class RuleResultsLookup<T> : IRuleResultsLookup<T>
     {
-        private readonly IReadOnlyDictionary<TElement, IEnumerable<RuleResult>> _lookup;
-        private readonly IEnumerable<IGrouping<TElement, RuleResult>> _enumerable;
+        private readonly IReadOnlyDictionary<T, IEnumerable<RuleResult>> _lookup;
+        private readonly IEnumerable<IGrouping<T, RuleResult>> _enumerable;
 
-        public RuleResultsLookup(IEnumerable<KeyValuePair<TElement, IEnumerable<RuleResult>>> results)
+        public RuleResultsLookup(IEnumerable<KeyValuePair<T, IEnumerable<RuleResult>>> results)
         {
             _lookup = results.ToDictionary(x => x.Key, x => x.Value);
-            _enumerable = results.Select(x => (IGrouping<TElement, RuleResult>)new GroupingAdapter(x));
+            _enumerable = results.Select(x => (IGrouping<T, RuleResult>)new GroupingAdapter(x));
         }
 
-        public IEnumerator<IGrouping<TElement, RuleResult>> GetEnumerator()
+        public IEnumerator<IGrouping<T, RuleResult>> GetEnumerator()
         {
             return _enumerable.GetEnumerator();
         }
@@ -26,21 +26,21 @@ namespace SimpleConcepts.ValidationRules
             return GetEnumerator();
         }
 
-        public bool Contains(TElement key)
+        public bool Contains(T key)
         {
             return _lookup.ContainsKey(key);
         }
 
         public int Count => _lookup.Count;
 
-        public IEnumerable<RuleResult> this[TElement key] => _lookup[key];
+        public IEnumerable<RuleResult> this[T key] => _lookup[key];
 
         [DebuggerDisplay("Valid = {Valid}", Name = "{Key}")]
-        private struct GroupingAdapter : IGrouping<TElement, RuleResult>
+        private struct GroupingAdapter : IGrouping<T, RuleResult>
         {
-            private readonly KeyValuePair<TElement, IEnumerable<RuleResult>> _source;
+            private readonly KeyValuePair<T, IEnumerable<RuleResult>> _source;
 
-            public GroupingAdapter(KeyValuePair<TElement, IEnumerable<RuleResult>> source)
+            public GroupingAdapter(KeyValuePair<T, IEnumerable<RuleResult>> source)
             {
                 _source = source;
             }
@@ -60,7 +60,7 @@ namespace SimpleConcepts.ValidationRules
                 return _source.Value.Valid();
             }
 
-            public TElement Key => _source.Key;
+            public T Key => _source.Key;
         }
     }
 }

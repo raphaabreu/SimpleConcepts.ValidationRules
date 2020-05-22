@@ -2,7 +2,7 @@
 using App.Metrics.Meter;
 using App.Metrics.Timer;
 
-namespace SimpleConcepts.ValidationRules.AppMetrics
+namespace SimpleConcepts.ValidationRules
 {
     internal static class MetricsOptions
     {

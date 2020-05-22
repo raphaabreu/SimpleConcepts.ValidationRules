@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using SimpleConcepts.ValidationRules.Tests.TestRules;
 using Xunit;
 
@@ -9,39 +10,39 @@ namespace SimpleConcepts.ValidationRules.Tests
     public class ContextualizedValidationRulesExtensionsTests
     {
         [Fact]
-        public void Validate_WithNoElements_DoesNotInvokeRules()
+        public async Task ValidateAsync_WithNoItems_DoesNotInvokeRules()
         {
             // Arrange
             var rules = new[] { new FailingRule<string>() };
-            var elements = Array.Empty<int>();
+            var items = Array.Empty<int>();
 
             // Act
-            var result = elements.Validate(rules, "context");
+            var result = await items.ValidateAsync(rules, "context");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void Validate_WithSlowRule_InvokeAllInParallel()
+        public async Task ValidateAsync_WithSlowRule_InvokeAllInParallel()
         {
             // Arrange
             var rules = new[] { new SlowRule<string>(), new SlowRule<string>(), new SlowRule<string>(), new SlowRule<string>() };
-            var elements = new[] { 1, 2, 3, 4 };
+            var items = new[] { 1, 2, 3, 4 };
             var stopWatch = new Stopwatch();
 
             // Act
             stopWatch.Start();
-            var results = elements.Validate(rules, "context");
+            var results = await items.ValidateAsync(rules, "context");
             stopWatch.Stop();
 
             // Assert
             Assert.Equal(16, results.SelectMany(x => x).Count());
-            Assert.True(stopWatch.Elapsed > TimeSpan.FromSeconds(2));
+            Assert.True(stopWatch.Elapsed < TimeSpan.FromSeconds(0.6));
         }
 
         [Fact]
-        public void Validate_WithMixedResults_MergeResults()
+        public async Task ValidateAsync_WithMixedResults_MergeResults()
         {
             // Arrange
             var rules = new IValidationRule<int, string>[]
@@ -51,10 +52,10 @@ namespace SimpleConcepts.ValidationRules.Tests
                 new LowerThanRule<string>(10),
                 new LowerThanRule<string>(12)
             };
-            var elements = new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+            var items = new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
             // Act
-            var results = elements.Validate(rules, "context");
+            var results = await items.ValidateAsync(rules, "context");
 
             // Assert
             Assert.Equal(10, results.Count());
@@ -68,29 +69,6 @@ namespace SimpleConcepts.ValidationRules.Tests
             Assert.Equal(new[] { "NOT_LOWER_THAN_10" }, results[11].ErrorCodes());
             Assert.Equal(new[] { "NOT_LOWER_THAN_10", "NOT_LOWER_THAN_12" }, results[12].ErrorCodes());
             Assert.Equal(new[] { "NOT_LOWER_THAN_10", "NOT_LOWER_THAN_12" }, results[13].ErrorCodes());
-        }
-
-        [Fact]
-        public void Validate_WithDelegatedRule_DelegateGetsCalled()
-        {
-            // Arrange
-            var rules = new IValidationRule<int, string>[]
-            {
-                new GreaterThanRule<string>(5),
-            };
-            var elements = new[] { 1 };
-            var called = false;
-            var delegated = rules.WithDelegate((rule, e, c) =>
-            {
-                called = true;
-                return rule.Validate(e, c);
-            });
-
-            // Act
-            elements.Validate(delegated, "context");
-
-            // Assert
-            Assert.True(called);
         }
     }
 }

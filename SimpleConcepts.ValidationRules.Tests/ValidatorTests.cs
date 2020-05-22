@@ -2,25 +2,28 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using SimpleConcepts.ValidationRules.Tests.TestHandlers;
 using SimpleConcepts.ValidationRules.Tests.TestRules;
 using Xunit;
 
 namespace SimpleConcepts.ValidationRules.Tests
 {
-    public class ValidationRulesAsyncExtensionsTests
+    public class ValidatorTests
     {
         [Fact]
-        public async Task ValidateAsync_WithNoElements_DoesNotInvokeRules()
+        public async Task ValidateAsync_WithNoItems_DoesNotInvokeRules()
         {
             // Arrange
             var rules = new[] { new FailingRule() };
-            var elements = Array.Empty<int>();
+            var handlers = Array.Empty<IValidationRuleHandler<int>>();
+            var items = Array.Empty<int>();
+            var validator = new Validator<int>(rules, handlers);
 
             // Act
-            var result = await elements.ValidateAsync(rules);
+            var results = await validator.ValidateAsync(items);
 
             // Assert
-            Assert.Empty(result);
+            Assert.Empty(results);
         }
 
         [Fact]
@@ -28,12 +31,14 @@ namespace SimpleConcepts.ValidationRules.Tests
         {
             // Arrange
             var rules = new[] { new SlowRule(), new SlowRule(), new SlowRule(), new SlowRule() };
-            var elements = new[] { 1, 2, 3, 4 };
+            var handlers = Array.Empty<IValidationRuleHandler<int>>();
+            var items = new[] { 1, 2, 3, 4 };
             var stopWatch = new Stopwatch();
+            var validator = new Validator<int>(rules, handlers);
 
             // Act
             stopWatch.Start();
-            var results = await elements.ValidateAsync(rules);
+            var results = await validator.ValidateAsync(items);
             stopWatch.Stop();
 
             // Assert
@@ -45,17 +50,19 @@ namespace SimpleConcepts.ValidationRules.Tests
         public async Task ValidateAsync_WithMixedResults_MergeResults()
         {
             // Arrange
-            var rules = new IAsyncValidationRule<int>[]
+            var rules = new IValidationRule<int>[]
             {
                 new GreaterThanRule(5),
                 new GreaterThanRule(7),
                 new LowerThanRule(10),
                 new LowerThanRule(12)
             };
-            var elements = new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+            var handlers = Array.Empty<IValidationRuleHandler<int>>();
+            var items = new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+            var validator = new Validator<int>(rules, handlers);
 
             // Act
-            var results = await elements.ValidateAsync(rules);
+            var results = await validator.ValidateAsync(items);
 
             // Assert
             Assert.Equal(10, results.Count());
@@ -72,26 +79,30 @@ namespace SimpleConcepts.ValidationRules.Tests
         }
 
         [Fact]
-        public async Task ValidateAsync_WithDelegatedRule_DelegateGetsCalled()
+        public async Task ValidateAsync_WithHandlers_HandlersGetCalledOnceForEachRule()
         {
             // Arrange
-            var rules = new IAsyncValidationRule<int>[]
+            var rules = new IValidationRule<int>[]
             {
                 new GreaterThanRule(5),
+                new GreaterThanRule(7),
+                new LowerThanRule(10),
+                new LowerThanRule(12)
             };
-            var elements = new[] { 1 };
-            var called = false;
-            var delegated = rules.WithDelegate((rule, e, ct) =>
+            var handlers = new[]
             {
-                called = true;
-                return rule.ValidateAsync(e, ct);
-            });
+                new TestHandler<int>(),
+                new TestHandler<int>(),
+                new TestHandler<int>()
+            };
+            var items = new[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+            var validator = new Validator<int>(rules, handlers);
 
             // Act
-            await elements.ValidateAsync(delegated);
+            await validator.ValidateAsync(items);
 
             // Assert
-            Assert.True(called);
+            Assert.All(handlers, h => Assert.Equal(4, h.HandleCount));
         }
     }
 }

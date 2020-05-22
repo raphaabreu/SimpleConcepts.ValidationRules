@@ -4,30 +4,19 @@ using System.Threading.Tasks;
 
 namespace SimpleConcepts.ValidationRules.Tests.TestRules
 {
-    public class FailingRule : IAsyncValidationRule<int>, IValidationRule<int>
+    public class FailingRule : IValidationRule<int>
     {
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, CancellationToken cancellationToken)
         {
             return new ValueTask<IEnumerable<ValidationResult>>(Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException()));
         }
-
-        public IEnumerable<ValidationResult> Validate(IEnumerable<int> source)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 
-    public class FailingRule<TContext> : IAsyncValidationRule<int, TContext>, IValidationRule<int, TContext>
+    public class FailingRule<TContext> : IValidationRule<int, TContext>
     {
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> source, TContext context, CancellationToken cancellationToken)
+        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, TContext context, CancellationToken cancellationToken)
         {
             return new ValueTask<IEnumerable<ValidationResult>>(Task.FromException<IEnumerable<ValidationResult>>(new System.NotImplementedException()));
         }
-
-        public IEnumerable<ValidationResult> Validate(IEnumerable<int> source, TContext context)
-        {
-            throw new System.NotImplementedException();
-        }
     }
-
 }

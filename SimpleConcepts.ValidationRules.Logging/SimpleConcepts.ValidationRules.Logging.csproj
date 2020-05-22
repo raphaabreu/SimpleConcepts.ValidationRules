@@ -6,11 +6,11 @@
     <RootNamespace>SimpleConcepts.ValidationRules</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>Extensions to automatically record execution times, results and exceptions of ValidationRules to AppMetrics.</Description>
+    <Description>Extensions to automatically log validation rules excecution and exceptions.</Description>
     <RepositoryUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</PackageProjectUrl>
-    <PackageTags>simpleconcepts validation rules linq appmetrics</PackageTags>
+    <PackageTags>simpleconcepts validation rules linq logging</PackageTags>
     <Copyright>MIT</Copyright>
     <Version>1.0.4</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -24,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="App.Metrics.Abstractions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\SimpleConcepts.ValidationRules\SimpleConcepts.ValidationRules.csproj" />
   </ItemGroup>
 
