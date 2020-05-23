@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 
 namespace SimpleConcepts.ValidationRules
@@ -8,6 +10,7 @@ namespace SimpleConcepts.ValidationRules
     {
         private readonly ILogger _logger;
         private readonly Type _targetRuleType;
+        private readonly int _itemCount;
         private readonly IDisposable _disposable;
         private Stopwatch _timer;
 
@@ -15,12 +18,21 @@ namespace SimpleConcepts.ValidationRules
         {
             _logger = loggerFactory.CreateLogger(targetRuleType);
             _targetRuleType = targetRuleType;
+            _itemCount = itemCount;
             _timer = new Stopwatch();
 
-            _disposable = _logger.BeginScope("Validation rule {ValidationRuleName} with {ItemCount} {ItemType}", targetRuleType.Name, itemCount, typeof(T).FullName);
+            _disposable = _logger.BeginScope("Validation rule {ValidationRuleName} with {ItemCount} {ItemType}", targetRuleType.Name, _itemCount, typeof(T).FullName);
 
-            _logger.LogDebug("Validation rule {ValidationRuleName} starting with {ItemCount} items", itemCount, typeof(T).FullName, _targetRuleType.Name);
+            _logger.LogDebug("Validation rule {ValidationRuleName} starting with {ItemCount} items", _targetRuleType.Name, itemCount);
             _timer.Start();
+        }
+
+        public void Results(IEnumerable<ValidationResult> results)
+        {
+            var invalidCount = results.Count(r => r != ValidationResult.Valid);
+
+            _timer.Stop();
+            _logger.LogDebug("Validation rule {ValidationRuleName} finished in {ElapsedMilliseconds}ms with {InvalidItemCount} invalid items of {ItemCount}", _targetRuleType.Name, _timer.Elapsed.TotalMilliseconds, invalidCount, _itemCount);
         }
 
         public void Exception(Exception ex)
@@ -32,12 +44,6 @@ namespace SimpleConcepts.ValidationRules
 
         public void Dispose()
         {
-            if (_timer != null)
-            {
-                _timer.Stop();
-                _logger.LogDebug("Validation rule {ValidationRuleName} finished in {ElapsedMilliseconds}ms", _targetRuleType.Name, _timer.Elapsed.TotalMilliseconds);
-            }
-
             _disposable.Dispose();
         }
     }

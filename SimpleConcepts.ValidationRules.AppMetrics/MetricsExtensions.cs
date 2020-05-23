@@ -27,10 +27,10 @@ namespace SimpleConcepts.ValidationRules
             }
         }
 
-        public static void MarkException<T>(this IMetrics metrics, Type ruleType, Exception exception, IEnumerable<T> items)
+        public static void MarkException<T>(this IMetrics metrics, Type ruleType, Exception exception)
         {
-            metrics.Measure.Meter.Mark(MetricsOptions.EXCEPTION,
-                new MetricTags(EXCEPTION_KEYS, new[] { ruleType.Name, ruleType.Namespace, typeof(T).Name, typeof(T).FullName, exception.GetType().FullName }), items.Count());
+            metrics.Measure.Meter.Mark(MetricsOptions.EXECUTION_EXCEPTION,
+                new MetricTags(EXCEPTION_KEYS, new[] { ruleType.Name, ruleType.Namespace, typeof(T).Name, typeof(T).FullName, exception.GetType().FullName }));
         }
     }
 }

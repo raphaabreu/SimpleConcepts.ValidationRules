@@ -12,11 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConcepts.ValidationRules.AppMetrics", "SimpleConcepts.ValidationRules.AppMetrics\SimpleConcepts.ValidationRules.AppMetrics.csproj", "{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleConcepts.ValidationRules.AppMetrics", "SimpleConcepts.ValidationRules.AppMetrics\SimpleConcepts.ValidationRules.AppMetrics.csproj", "{2AB7397E-9F95-4BCB-89BD-6A4DF0549EE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConcepts.ValidationRules.Logging", "SimpleConcepts.ValidationRules.Logging\SimpleConcepts.ValidationRules.Logging.csproj", "{965D6594-AD9C-4ABA-94C9-91556ECA6B14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleConcepts.ValidationRules.Logging", "SimpleConcepts.ValidationRules.Logging\SimpleConcepts.ValidationRules.Logging.csproj", "{965D6594-AD9C-4ABA-94C9-91556ECA6B14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConcepts.ValidationRules.DependencyInjection", "SimpleConcepts.ValidationRules.DependencyInjection\SimpleConcepts.ValidationRules.DependencyInjection.csproj", "{C3D9762D-89F3-4C8A-9625-3C04F0479E6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleConcepts.ValidationRules.DependencyInjection", "SimpleConcepts.ValidationRules.DependencyInjection\SimpleConcepts.ValidationRules.DependencyInjection.csproj", "{C3D9762D-89F3-4C8A-9625-3C04F0479E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConcepts.ValidationRules.AspNetTest", "SimpleConcepts.ValidationRules.AspNetTest\SimpleConcepts.ValidationRules.AspNetTest.csproj", "{B3291AE8-3751-4A0A-B0F9-FBC0365900E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{C3D9762D-89F3-4C8A-9625-3C04F0479E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3D9762D-89F3-4C8A-9625-3C04F0479E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3D9762D-89F3-4C8A-9625-3C04F0479E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3291AE8-3751-4A0A-B0F9-FBC0365900E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3291AE8-3751-4A0A-B0F9-FBC0365900E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3291AE8-3751-4A0A-B0F9-FBC0365900E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3291AE8-3751-4A0A-B0F9-FBC0365900E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

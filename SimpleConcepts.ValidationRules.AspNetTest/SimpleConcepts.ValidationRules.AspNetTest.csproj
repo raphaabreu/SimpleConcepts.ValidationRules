@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.Mvc" Version="3.2.0" />
+    <PackageReference Include="App.Metrics.Extensions.Configuration" Version="3.2.0" />
+    <PackageReference Include="App.Metrics.Extensions.Hosting" Version="3.2.0" />
+    <PackageReference Include="App.Metrics.Formatters.Prometheus" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleConcepts.ValidationRules.Tests\SimpleConcepts.ValidationRules.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

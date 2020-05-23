@@ -33,7 +33,7 @@ namespace SimpleConcepts.ValidationRules
             }
             catch (Exception ex)
             {
-                _metrics.MarkException(targetRuleType, ex, items);
+                _metrics.MarkException<T>(targetRuleType, ex);
 
                 throw;
             }

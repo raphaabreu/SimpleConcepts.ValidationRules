@@ -23,7 +23,11 @@ namespace SimpleConcepts.ValidationRules
             {
                 try
                 {
-                    return await next();
+                    var results = await next();
+
+                    loggingContext.Results(results);
+
+                    return results;
                 }
                 catch (Exception ex)
                 {

@@ -24,9 +24,9 @@ namespace SimpleConcepts.ValidationRules
             Context = "application"
         };
 
-        public static readonly MeterOptions EXCEPTION = new MeterOptions
+        public static readonly MeterOptions EXECUTION_EXCEPTION = new MeterOptions
         {
-            Name = "ValidationRules Exception",
+            Name = "ValidationRules Execution Exception",
             MeasurementUnit = Unit.Events,
             RateUnit = TimeUnit.Seconds,
             Context = "application"
