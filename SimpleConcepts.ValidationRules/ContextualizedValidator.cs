@@ -25,12 +25,12 @@ namespace SimpleConcepts.ValidationRules
             // If there are no elements there is nothing else to do.
             if (itemsArray.Length == 0)
             {
-                return new RuleResultsLookup<T>(Array.Empty<KeyValuePair<T, IEnumerable<RuleResult>>>());
+                return new RuleResultsLookup<T>(Array.Empty<KeyValuePair<T, RuleResult[]>>());
             }
 
             // Compute all rules in parallel.
             var validationTasks = _rules
-                .Select(rule => HandleAsync(rule, items, context, cancellationToken))
+                .Select(rule => HandleAsync(rule, itemsArray, context, cancellationToken))
                 .ToArray();
 
             var ruleResults = new List<RuleResult[]>(validationTasks.Length);
@@ -41,17 +41,17 @@ namespace SimpleConcepts.ValidationRules
 
             // Aggregate all results by item.
             var results = itemsArray
-                .Select((item, index) => new KeyValuePair<T, IEnumerable<RuleResult>>(item, ruleResults.Select(r => r[index])));
+                .Select((item, index) => new KeyValuePair<T, RuleResult[]>(item, ruleResults.Select(r => r[index]).ToArray()));
 
             return new RuleResultsLookup<T>(results);
         }
 
-        private async ValueTask<RuleResult[]> HandleAsync(IValidationRule<T, TContext> rule, IEnumerable<T> items, TContext context, CancellationToken cancellationToken)
+        private async ValueTask<RuleResult[]> HandleAsync(IValidationRule<T, TContext> rule, T[] items, TContext context, CancellationToken cancellationToken)
         {
             // Creates final handler that executes the rule itself.
-            async ValueTask<IEnumerable<ValidationResult>> finalHandler()
+            async ValueTask<ValidationResult[]> finalHandler()
             {
-                return (await rule.ValidateAsync(items, context, cancellationToken)).ToArray();
+                return await rule.ValidateAsync(items, context, cancellationToken);
             }
 
             // Creates the handler chain by reversing the original list of handlers then aggregating them with the final handler as the seed.

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +8,7 @@ namespace SimpleConcepts.ValidationRules.Tests.TestHandlers
     {
         public int HandleCount { get; set; }
 
-        public ValueTask<IEnumerable<ValidationResult>> HandleAsync(Type targetRuleType, IEnumerable<T> items, TContext context, ValidationRuleHandlerDelegate next,
+        public ValueTask<ValidationResult[]> HandleAsync(Type targetRuleType, T[] items, TContext context, ValidationRuleHandlerDelegate next,
             CancellationToken cancellationToken)
         {
             HandleCount += 1;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using App.Metrics;
 using App.Metrics.Timer;
@@ -10,7 +9,7 @@ namespace SimpleConcepts.ValidationRules
     {
         private static readonly string[] TIME_KEYS = { "rule", "ruleNamespace", "item", "itemNamespace" };
         private static readonly string[] RESULT_KEYS = { "rule", "ruleNamespace", "item", "itemNamespace", "result" };
-        private static readonly string[] EXCEPTION_KEYS = new[] { "rule", "ruleNamespace", "item", "itemNamespace", "exception" };
+        private static readonly string[] EXCEPTION_KEYS = { "rule", "ruleNamespace", "item", "itemNamespace", "exception" };
 
         public static TimerContext MarkTime<T>(this IMetrics metrics, Type ruleType)
         {
@@ -18,7 +17,7 @@ namespace SimpleConcepts.ValidationRules
                 new MetricTags(TIME_KEYS, new[] { ruleType.Name, ruleType.Namespace, typeof(T).Name, typeof(T).FullName }));
         }
 
-        public static void MarkResults<T>(this IMetrics metrics, Type ruleType, IEnumerable<ValidationResult> results)
+        public static void MarkResults<T>(this IMetrics metrics, Type ruleType, ValidationResult[] results)
         {
             foreach (var result in results.GroupBy(r => r?.ErrorCode ?? "Valid"))
             {

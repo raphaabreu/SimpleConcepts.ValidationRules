@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using App.Metrics;
@@ -15,12 +14,12 @@ namespace SimpleConcepts.ValidationRules
             _metrics = metrics ?? throw new ArgumentNullException(nameof(metrics));
         }
 
-        public async ValueTask<IEnumerable<ValidationResult>> HandleAsync(Type targetRuleType, IEnumerable<T> items, ValidationRuleHandlerDelegate next,
+        public async ValueTask<ValidationResult[]> HandleAsync(Type targetRuleType, T[] items, ValidationRuleHandlerDelegate next,
             CancellationToken cancellationToken)
         {
             try
             {
-                IEnumerable<ValidationResult> results;
+                ValidationResult[] results;
 
                 using (_metrics.MarkTime<T>(targetRuleType))
                 {

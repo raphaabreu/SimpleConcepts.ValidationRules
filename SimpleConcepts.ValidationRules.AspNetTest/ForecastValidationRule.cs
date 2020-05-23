@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ namespace SimpleConcepts.ValidationRules.AspNetTest
 {
     public class ForecastValidationRule : IValidationRule<WeatherForecast>
     {
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<WeatherForecast> items, CancellationToken cancellationToken)
+        public ValueTask<ValidationResult[]> ValidateAsync(WeatherForecast[] items, CancellationToken cancellationToken)
         {
             var rnd = new Random();
 
@@ -18,14 +17,16 @@ namespace SimpleConcepts.ValidationRules.AspNetTest
                 throw new InvalidOperationException();
             }
 
-            return new ValueTask<IEnumerable<ValidationResult>>(items.Select(x => rnd.NextDouble() > 0.2 ? ValidationResult.Valid : new ValidationResult("INVALID_FOREACAST")));
+            return new ValueTask<ValidationResult[]>(items
+                .Select(x => rnd.NextDouble() > 0.2 ? ValidationResult.Valid : new ValidationResult("INVALID_FOREACAST"))
+                .ToArray());
         }
 
     }
 
     public class DatedForecastValidationRule : IValidationRule<WeatherForecast, DateTime>
     {
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<WeatherForecast> items, DateTime context, CancellationToken cancellationToken)
+        public ValueTask<ValidationResult[]> ValidateAsync(WeatherForecast[] items, DateTime context, CancellationToken cancellationToken)
         {
             var rnd = new Random();
 
@@ -34,7 +35,9 @@ namespace SimpleConcepts.ValidationRules.AspNetTest
                 throw new InvalidOperationException();
             }
 
-            return new ValueTask<IEnumerable<ValidationResult>>(items.Select(x => rnd.NextDouble() > 0.2 ? ValidationResult.Valid : new ValidationResult("INVALID_FOREACAST")));
+            return new ValueTask<ValidationResult[]>(items
+                .Select(x => rnd.NextDouble() > 0.2 ? ValidationResult.Valid : new ValidationResult("INVALID_FOREACAST"))
+                .ToArray());
         }
     }
 
@@ -47,7 +50,7 @@ namespace SimpleConcepts.ValidationRules.AspNetTest
             _logger = logger;
         }
 
-        public ValueTask<IEnumerable<ValidationResult>> HandleAsync(Type targetRuleType, IEnumerable<WeatherForecast> items, ValidationRuleHandlerDelegate next,
+        public ValueTask<ValidationResult[]> HandleAsync(Type targetRuleType, WeatherForecast[] items, ValidationRuleHandlerDelegate next,
             CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handling weather forecast rule.");
@@ -65,7 +68,7 @@ namespace SimpleConcepts.ValidationRules.AspNetTest
             _logger = logger;
         }
 
-        public ValueTask<IEnumerable<ValidationResult>> HandleAsync(Type targetRuleType, IEnumerable<WeatherForecast> items, DateTime context, ValidationRuleHandlerDelegate next,
+        public ValueTask<ValidationResult[]> HandleAsync(Type targetRuleType, WeatherForecast[] items, DateTime context, ValidationRuleHandlerDelegate next,
             CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handling dated weather forecast rule.");

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace SimpleConcepts.ValidationRules
 {
-    public delegate ValueTask<IEnumerable<ValidationResult>> ValidationRuleHandlerDelegate();
+    public delegate ValueTask<ValidationResult[]> ValidationRuleHandlerDelegate();
 }

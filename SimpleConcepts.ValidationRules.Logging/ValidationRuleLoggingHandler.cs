@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -16,10 +14,10 @@ namespace SimpleConcepts.ValidationRules
             _loggerFactory = loggerFactory;
         }
 
-        public async ValueTask<IEnumerable<ValidationResult>> HandleAsync(Type targetRuleType, IEnumerable<T> items, ValidationRuleHandlerDelegate next,
+        public async ValueTask<ValidationResult[]> HandleAsync(Type targetRuleType, T[] items, ValidationRuleHandlerDelegate next,
             CancellationToken cancellationToken)
         {
-            using (var loggingContext = new LoggingContext<T>(_loggerFactory, targetRuleType, items.Count()))
+            using (var loggingContext = new LoggingContext<T>(_loggerFactory, targetRuleType, items.Length))
             {
                 try
                 {

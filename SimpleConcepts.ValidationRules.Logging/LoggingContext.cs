@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Logging;
@@ -27,7 +26,7 @@ namespace SimpleConcepts.ValidationRules
             _timer.Start();
         }
 
-        public void Results(IEnumerable<ValidationResult> results)
+        public void Results(ValidationResult[] results)
         {
             var invalidCount = results.Count(r => r != ValidationResult.Valid);
 

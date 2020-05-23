@@ -6,13 +6,13 @@
     <RootNamespace>SimpleConcepts.ValidationRules</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>Simple LINQ extensions that allow easy validation of multiple objects according with rules that can be either sync or async where async rules execute in parallel.</Description>
+    <Description>Simple and easy validation of multiple objects according with async rules that are executed in parallel.</Description>
     <RepositoryUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
     <PackageProjectUrl>https://github.com/raphaabreu/SimpleConcepts.ValidationRules</PackageProjectUrl>
     <PackageTags>simpleconcepts validation rules linq</PackageTags>
     <Copyright>MIT</Copyright>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

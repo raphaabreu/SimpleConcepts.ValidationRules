@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,9 +13,11 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
             _threshold = threshold;
         }
 
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, CancellationToken cancellationToken)
+        public ValueTask<ValidationResult[]> ValidateAsync(int[] items, CancellationToken cancellationToken)
         {
-            return new ValueTask<IEnumerable<ValidationResult>>(items.Select(i => i > _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_GREATER_THAN_{_threshold}")));
+            return new ValueTask<ValidationResult[]>(items
+                .Select(i => i > _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_GREATER_THAN_{_threshold}"))
+                .ToArray());
         }
     }
 
@@ -29,9 +30,11 @@ namespace SimpleConcepts.ValidationRules.Tests.TestRules
             _threshold = threshold;
         }
 
-        public ValueTask<IEnumerable<ValidationResult>> ValidateAsync(IEnumerable<int> items, TContext context, CancellationToken cancellationToken)
+        public ValueTask<ValidationResult[]> ValidateAsync(int[] items, TContext context, CancellationToken cancellationToken)
         {
-            return new ValueTask<IEnumerable<ValidationResult>>(items.Select(i => i > _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_GREATER_THAN_{_threshold}")));
+            return new ValueTask<ValidationResult[]>(items
+                .Select(i => i > _threshold ? ValidationResult.Valid : new ValidationResult($"NOT_GREATER_THAN_{_threshold}"))
+                .ToArray());
         }
     }
 }
